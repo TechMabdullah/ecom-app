@@ -47,16 +47,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Too many requests — try again in a few minutes" }, { status: 429 });
     }
 
-    // ...rest of existing code stays the same
-    
-export async function POST(req: NextRequest) {
-  try {
-    const { email } = await req.json();
-
-    if (!email || typeof email !== "string") {
-      return NextResponse.json({ error: "Email is required" }, { status: 400 });
-    }
-
     const code = generateCode();
     const expiresAt = Timestamp.fromMillis(Date.now() + 10 * 60 * 1000); // 10 min expiry
 
