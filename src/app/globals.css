@@ -8,8 +8,9 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
+  --font-mono: var(--font-mono);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -24,3 +25,73 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+:root {
+  --graphite: #f5f0e6;
+  --pcb: #ffffff;
+  --amber: #c17817;
+  --off-white: #2a241a;
+  --trace: #ddd3bd;
+}
+
+body {
+  background-color: var(--graphite);
+  color: var(--off-white);
+  font-family: var(--font-body), sans-serif;
+}
+
+.font-display {
+  font-family: var(--font-display), sans-serif;
+}
+
+.font-mono {
+  font-family: var(--font-mono), monospace;
+}
+
+.designator {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--amber);
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid var(--trace);
+  padding: 2px 6px;
+  border-radius: 2px;
+}
+
+.component-card {
+  background: var(--pcb);
+  border: 1px solid var(--trace);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.component-card:hover {
+  border-color: var(--amber);
+  box-shadow: 0 0 0 1px var(--amber), 0 4px 16px rgba(193, 120, 23, 0.15);
+  transform: translateY(-2px);
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.6s ease-out both;
+}
+
+.swing-tag::before {
+  content: "";
+  position: absolute;
+  top: 6px;
+  left: -4px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--paper);
+  border: 1px solid var(--line);
+} 

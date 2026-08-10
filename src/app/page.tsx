@@ -1,69 +1,130 @@
-import Image from "next/image";
+import { getFeaturedProducts } from "@/lib/products";
+import ProductCard from "@/components/shop/ProductCard";
+import NewsletterSignup from "@/components/shop/NewsLetterSignup";
 
-export default function Home() {
+export default async function HomePage() {
+  const featured = await getFeaturedProducts();
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main>
+      {/* Hero */}
+      <section className="px-6 md:px-12 pt-20 pb-16 max-w-5xl mx-auto text-center">
+        <p
+          className="font-mono text-xs tracking-widest uppercase mb-4 animate-fade-up"
+          style={{ color: "var(--amber)" }}
+        >
+          Dev boards &amp; components — in stock
+        </p>
+        <h1
+          className="font-display text-5xl md:text-7xl font-semibold leading-[1.05] animate-fade-up"
+          style={{ animationDelay: "80ms" }}
+        >
+          Build the thing
+          <br />
+          in your head.
+        </h1>
+        <p
+          className="mt-6 text-base md:text-lg opacity-60 max-w-lg mx-auto animate-fade-up"
+          style={{ animationDelay: "160ms" }}
+        >
+          Microcontrollers, sensors, and parts for makers — Arduino, ESP32,
+          and everything else your next project needs.
+        </p>
+        <div
+          className="mt-8 flex items-center justify-center gap-6 font-mono text-xs opacity-50 animate-fade-up"
+          style={{ animationDelay: "220ms" }}
+        >
+          <span>★★★★★ 4.9 from 300+ makers</span>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
+      </section>
+
+      {/* Trust strip */}
+      <section
+        className="px-6 md:px-12 py-6 border-y max-w-5xl mx-auto"
+        style={{ borderColor: "var(--trace)" }}
+      >
+        <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-3 font-mono text-xs opacity-50">
+          <span>✓ Ships in 24h</span>
+          <span>✓ Cash on delivery available</span>
+          <span>✓ 5-day easy exchange</span>
+          <span>✓ Talk to us on WhatsApp</span>
+        </div>
+      </section>
+
+      {/* Featured products */}
+      <section className="px-6 md:px-12 pt-16 pb-24 max-w-5xl mx-auto">
+        <div
+          className="flex items-baseline justify-between mb-8 border-b pb-3"
+          style={{ borderColor: "var(--trace)" }}
+        >
+          <h2 className="font-display text-2xl">Featured</h2>
+          <a href="/products" className="text-sm font-mono opacity-60 hover:opacity-100">
+            view all →
           </a>
         </div>
-      </main>
-    </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10">
+          {featured.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+      </section>
+
+      {/* How it works */}
+      <section
+        className="px-6 md:px-12 py-20 border-t max-w-5xl mx-auto"
+        style={{ borderColor: "var(--trace)" }}
+      >
+        <h2 className="font-display text-2xl mb-12 text-center">How it works</h2>
+        <div className="grid md:grid-cols-3 gap-10">
+          {[
+            { step: "01", title: "Pick your parts", body: "Browse boards, sensors, and prototyping gear picked for real projects, not just specs sheets." },
+            { step: "02", title: "Check out fast", body: "Card, COD, or order straight over WhatsApp — whichever's easiest for you." },
+            { step: "03", title: "Start building", body: "Ships within 24 hours. Track it, get it, start soldering." },
+          ].map((item) => (
+            <div key={item.step}>
+              <p className="font-mono text-3xl mb-3" style={{ color: "var(--amber)" }}>
+                {item.step}
+              </p>
+              <h3 className="font-display text-lg mb-2">{item.title}</h3>
+              <p className="text-sm opacity-60 leading-relaxed">{item.body}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section
+        className="px-6 md:px-12 py-20 border-t max-w-5xl mx-auto"
+        style={{ borderColor: "var(--trace)" }}
+      >
+        <h2 className="font-display text-2xl mb-12 text-center">What makers say</h2>
+        <div className="grid md:grid-cols-3 gap-6">
+          {[
+            { quote: "Ordered an ESP32 at night, had it building a weather station by the weekend. Fast shipping, genuine parts.", name: "Hamza, robotics student" },
+            { quote: "Finally a store that doesn't sell knockoff boards. Everything's worked first try.", name: "Sara, hardware hobbyist" },
+            { quote: "COD made it easy to trust them the first time. Now I order every month.", name: "Bilal, IoT developer" },
+          ].map((t, i) => (
+            <div key={i} className="component-card rounded-sm p-6">
+              <p className="text-sm opacity-80 leading-relaxed mb-4">&ldquo;{t.quote}&rdquo;</p>
+              <p className="font-mono text-xs opacity-50">{t.name}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Newsletter */}
+      <section
+        className="px-6 md:px-12 py-16 border-t max-w-5xl mx-auto"
+        style={{ borderColor: "var(--trace)" }}
+      >
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div>
+            <h2 className="font-display text-2xl mb-1">Stay in the loop</h2>
+            <p className="opacity-60 text-sm">New parts, restocks, and project ideas — no spam.</p>
+          </div>
+          <NewsletterSignup />
+        </div>
+      </section>
+    </main>
   );
 }
