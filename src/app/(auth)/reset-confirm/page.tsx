@@ -17,21 +17,26 @@ export default function ResetConfirmPage() {
   const [status, setStatus] = useState<"checking" | "ready" | "invalid" | "done">("checking");
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    if (!oobCode) {
+
+useEffect(() => {
+  if (!oobCode) {
+    return;
+  }
+
+  verifyPasswordResetCode(auth, oobCode)
+    .then((verifiedEmail) => {
+      setEmail(verifiedEmail);
+      setStatus("ready");
+    })
+    .catch((err) => {
+      console.error(
+        "Reset code verification failed:",
+        err.code,
+        err.message
+      );
       setStatus("invalid");
-      return;
-    }
-    verifyPasswordResetCode(auth, oobCode)
-      .then((verifiedEmail) => {
-        setEmail(verifiedEmail);
-        setStatus("ready");
-      })
-      .catch((err) => {
-        console.error("Reset code verification failed:", err.code, err.message);
-        setStatus("invalid");
-      });
-  }, [oobCode]);
+    });
+}, [oobCode]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
