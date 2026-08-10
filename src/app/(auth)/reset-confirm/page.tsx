@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   verifyPasswordResetCode,
@@ -8,7 +8,7 @@ import {
 } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 
-export default function ResetConfirmPage() {
+function ResetConfirmPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -50,7 +50,9 @@ export default function ResetConfirmPage() {
       });
   }, [oobCode]);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (
+    e: React.FormEvent<HTMLFormElement>
+  ) => {
     e.preventDefault();
     setError("");
 
@@ -73,7 +75,7 @@ export default function ResetConfirmPage() {
 
   if (status === "checking") {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center px-4">
         <p className="font-mono text-sm">
           checking link...
         </p>
@@ -179,5 +181,21 @@ export default function ResetConfirmPage() {
         </form>
       </div>
     </div>
+  );
+}
+
+export default function ResetConfirmPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center px-4">
+          <p className="font-mono text-sm">
+            checking link...
+          </p>
+        </div>
+      }
+    >
+      <ResetConfirmPageContent />
+    </Suspense>
   );
 }
